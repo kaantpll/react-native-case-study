@@ -115,3 +115,18 @@ export const useDeleteList = () => {
     },
   });
 };
+
+export const useSearchLists = (searchTerm: string) => {
+  return useQuery<List[]>({
+    queryKey: ['LISTS', 'SEARCH', searchTerm],
+    queryFn: () => Services.searchListsByName(searchTerm),
+    enabled: searchTerm.length > 0,
+  });
+};
+
+export const useRecentLists = (limit = 5) => {
+  return useQuery<List[]>({
+    queryKey: ['LISTS', 'RECENT', limit],
+    queryFn: () => Services.getRecentLists(limit),
+  });
+};

@@ -15,7 +15,7 @@ import {
   getTasksByListId,
 } from '@/queries/tasks';
 import { Task } from '@/types';
-import { TaskInput, TaskUpdateInput } from '@/validations';
+import { TaskInput, TaskUpdateInput } from '@/utils/validations';
 
 const Services = {
   fetchTasks: async () => await getAllTasks(),

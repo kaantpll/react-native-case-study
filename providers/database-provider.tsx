@@ -1,6 +1,5 @@
-import { drizzle } from 'drizzle-orm/expo-sqlite';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
-import { SQLiteProvider, openDatabaseSync } from 'expo-sqlite';
+import { SQLiteProvider } from 'expo-sqlite';
 import { Suspense } from 'react';
 import { ActivityIndicator } from 'react-native';
 

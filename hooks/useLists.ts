@@ -81,7 +81,9 @@ export const useUpdateList = () => {
       const previousLists = queryClient.getQueryData<List[]>(['LISTS']);
 
       queryClient.setQueryData<List[] | undefined>(['LISTS'], (old) =>
-        old ? old.map((l) => (l.id === id ? { ...l, name } : l)) : old
+        old
+          ? old.map((l) => (l.id === id ? { ...l, name, updated_at: new Date().toISOString() } : l))
+          : old
       );
 
       return { previousLists };

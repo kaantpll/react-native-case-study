@@ -1,5 +1,11 @@
 # SevenApps React Native Case Study
 
+## Project Preview
+
+🎥 **Watch the project demo video**: [`video.mp4`](./video.mp4)
+
+This video demonstrates the completed task management application, showing all implemented features and user interactions.
+
 ## Overview
 
 This repository contains a case study for React Native developers applying to SevenApps. The project is a task/todo management application where candidates will demonstrate their ability to handle asynchronous operations and implement proper UI components.

@@ -48,6 +48,52 @@ export const useFetchTasksByList = (listId: number) => {
   });
 };
 
+export const useFetchTaskById = (id: number) => {
+  return useQuery<Task | undefined>({
+    queryKey: ['TASKS', 'TASK', id],
+    queryFn: () => Services.getTaskById(id),
+    enabled: !!id,
+  });
+};
+
+export const useSearchTasksByName = (searchTerm: string) => {
+  return useQuery<Task[]>({
+    queryKey: ['TASKS', 'SEARCH', searchTerm],
+    queryFn: () => Services.searchTasksByName(searchTerm),
+    enabled: !!searchTerm.trim(),
+  });
+};
+
+export const useFetchTasksByStatus = (status: string) => {
+  return useQuery<Task[]>({
+    queryKey: ['TASKS', 'STATUS', status],
+    queryFn: () => Services.getTasksByStatus(status),
+    enabled: !!status,
+  });
+};
+
+export const useFetchTasksByPriority = (priority: string) => {
+  return useQuery<Task[]>({
+    queryKey: ['TASKS', 'PRIORITY', priority],
+    queryFn: () => Services.getTasksByPriority(priority),
+    enabled: !!priority,
+  });
+};
+
+export const useFetchUpcomingTasks = () => {
+  return useQuery<Task[]>({
+    queryKey: ['TASKS', 'UPCOMING'],
+    queryFn: () => Services.getUpcomingTasks(),
+  });
+};
+
+export const useFetchCompletedTasks = () => {
+  return useQuery<Task[]>({
+    queryKey: ['TASKS', 'COMPLETED'],
+    queryFn: () => Services.getCompletedTasks(),
+  });
+};
+
 export const useCreateTask = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -104,6 +150,19 @@ export const useUpdateTask = () => {
         old ? old.map((t) => (t.id === id ? { ...t, ...updates } : t)) : old
       );
 
+      const queryCache = queryClient.getQueryCache();
+      queryCache.getAll().forEach((query) => {
+        if (query.queryKey[0] === 'TASKS' && query.queryKey[1] === 'LIST') {
+          const listData = queryClient.getQueryData<Task[]>(query.queryKey);
+          if (listData) {
+            queryClient.setQueryData<Task[]>(
+              query.queryKey,
+              listData.map((t) => (t.id === id ? { ...t, ...updates } : t))
+            );
+          }
+        }
+      });
+
       return { previousTasks };
     },
     onError: (_err, _variables, context: any) => {
@@ -156,7 +215,7 @@ export const useToggleTaskCompletion = () => {
       const previousTasks = queryClient.getQueryData<Task[]>(['TASKS']);
 
       queryClient.setQueryData<Task[] | undefined>(['TASKS'], (old) =>
-        old ? old.map((t) => (t.id === id ? { ...t, completed: isCompleted } : t)) : old
+        old ? old.map((t) => (t.id === id ? { ...t, is_completed: isCompleted } : t)) : old
       );
 
       return { previousTasks };

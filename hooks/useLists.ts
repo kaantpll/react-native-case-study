@@ -28,6 +28,14 @@ export const useFetchLists = () => {
   });
 };
 
+export const useFetchListById = (id: number) => {
+  return useQuery<List | undefined>({
+    queryKey: ['LISTS', id],
+    queryFn: () => Services.getListById(id),
+    enabled: !!id,
+  });
+};
+
 export const useCreateList = () => {
   const queryClient = useQueryClient();
   return useMutation({

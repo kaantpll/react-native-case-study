@@ -9,7 +9,16 @@
       "output": "static",
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-router", "expo-sqlite"],
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to help create a task with an image."
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
@@ -22,16 +31,27 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kaantpll.sevenapps-react-native-case-study"
+      "bundleIdentifier": "com.kaantpll.sevenapps-react-native-case-study",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "This app accesses your photos to help create a task with an image.",
+        "NSCameraUsageDescription": "This app uses the camera to take photos for your tasks."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.kaantpll.sevenappsreactnativecasestudy"
     }
   }
 }

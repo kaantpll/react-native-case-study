@@ -1,17 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import {
-  Modal,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import { Modal, View, Text, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 
 import { Button } from '@/components/Button';
+import { TextInput } from '@/components/form/TextInput';
 import { useCreateList, useUpdateList } from '@/hooks/useLists';
 import { useModalStore } from '@/store/modalStore';
 import { listSchema, ListInput } from '@/utils/validations';
@@ -64,28 +57,21 @@ export const ListModal = () => {
             <View className={styles.dragHandle} />
             <Text className={styles.title}>{isEdit ? 'Edit List' : 'Create New List'}</Text>
 
-            <View className={styles.inputContainer}>
-              <Controller
-                control={control}
-                name="name"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
-                    placeholder="Enter list name"
-                    placeholderTextColor="#9CA3AF"
-                    value={value}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    autoFocus
-                  />
-                )}
-              />
-              {errors.name && (
-                <View className={styles.errorContainer}>
-                  <Text className={styles.errorText}>{errors.name.message}</Text>
-                </View>
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  placeholder="Enter list name"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  autoFocus
+                  error={errors.name?.message}
+                  containerClassName="mb-6"
+                />
               )}
-            </View>
+            />
 
             <View className={styles.buttonRow}>
               <TouchableOpacity onPress={handleClose} className={styles.cancelButton}>
@@ -112,13 +98,6 @@ const styles = {
   modalContent: 'px-6 py-8 pb-12',
   dragHandle: 'w-12 h-1 bg-gray-300 rounded-full self-center mb-6',
   title: 'text-2xl font-bold text-gray-900 text-center mb-8',
-  inputContainer: 'mb-6',
-  label: 'text-sm font-medium text-gray-700 mb-2',
-  input:
-    'bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-base text-gray-900 focus:border-indigo-500 focus:bg-white',
-  inputError: 'border-red-400 bg-red-50',
-  errorContainer: 'mt-2',
-  errorText: 'text-red-500 text-sm font-medium',
   buttonRow: 'flex-row justify-between items-center gap-4',
   cancelButton: 'flex-1 py-4 px-6 bg-gray-100 rounded-[28px] items-center',
   cancelText: 'text-gray-700 font-semibold text-base',

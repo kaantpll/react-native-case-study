@@ -1,30 +1,33 @@
 import React, { useState } from 'react';
-import { FlatList, View, Text, RefreshControl } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 
+import { EmptyState } from '../EmptyState';
 import { ListCard } from './ListCard';
+import { Loading } from '../Loading';
 
 import { List } from '@/types';
 
 interface ListsListProps {
   lists: List[];
   refetch: () => void;
+  isSearching?: boolean;
 }
 
-export const ListsList = ({ lists, refetch }: ListsListProps) => {
+export const ListsList = ({ lists, refetch, isSearching = false }: ListsListProps) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await refetch();
+    refetch();
     setRefreshing(false);
   };
 
+  if (isSearching) {
+    return <Loading />;
+  }
+
   if (lists.length === 0) {
-    return (
-      <View className={styles.emptyContainer}>
-        <Text className={styles.emptyText}>No lists yet</Text>
-      </View>
-    );
+    return <EmptyState title="No lists yet" description="Create your first list to get started" />;
   }
 
   return (
@@ -42,7 +45,5 @@ export const ListsList = ({ lists, refetch }: ListsListProps) => {
 };
 
 const styles = {
-  emptyContainer: 'flex-1 items-center justify-center',
-  emptyText: 'lg text-gray-500',
   list: 'flex-1',
 };

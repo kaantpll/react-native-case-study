@@ -18,10 +18,11 @@ export const Button = forwardRef<View, ButtonProps>(
       <TouchableOpacity
         ref={ref}
         {...touchableProps}
+        testID="button-touchable"
         className={`${styles.button} ${touchableProps.className} ${isLoading ? styles.loadingButton : ''}`}
         disabled={isLoading || touchableProps.disabled}>
         {isLoading ? (
-          <ActivityIndicator color="white" size="small" />
+          <ActivityIndicator color="white" size="small" testID="activity-indicator" />
         ) : (
           <Text className={styles.buttonText}>{title}</Text>
         )}
